@@ -17,10 +17,16 @@ class FileStorage:
         key = "{}.{}".format(type(obj).__name__, obj.id)
         self.__objects[key] = obj
 
+    def _serialize_helper(self, obj):
+        """ Helper function for serializing non-serializable objects. """
+        # Implement custom serialization logic here
+        pass
+
     def save(self):
-        """ Serialize an object to a file"""
-        with open(self.__file_path, 'w') as file:
-            json.dump(self.__object, file, default=self._serialize_helper)
+        """ serializes __objects to the JSON file (path: __file_path)"""
+        with open(FileStorage.__file_path, "w", encoding="utf-8") as f:
+            d = {k: v.to_dict() for k, v in FileStorage.__objects.items()}
+            json.dump(d, f)
 
     @staticmethod
     def _deserialize_helper(d):
