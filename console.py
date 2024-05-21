@@ -1,13 +1,15 @@
 import cmd
 
-class baseclass(cmd.Cmd):
-    def do_exit(self):
-        print("exitting in progress")
-        return true
 
-    def do_empty(self):
-        print("alternative exit from program")
-        return true
+class HelloWorld(cmd.Cmd):
+    """Simple command processor example."""
 
-    if __name__ == '__main__':
+    def do_greet(self, line):
+        print "hello"
+
+    def do_EOF(self, line):
+        return True
+
+
+if __name__ == '__main__':
     HBNBCommand().cmdloop()
