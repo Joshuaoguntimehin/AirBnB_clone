@@ -1,7 +1,7 @@
 import cmd
 
 
-class HelloWorld(cmd.Cmd):
+class HBNBCommand(cmd.Cmd):
     """Simple command processor example."""
 
     def do_greet(self, line):
