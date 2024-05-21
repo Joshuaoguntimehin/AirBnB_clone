@@ -48,6 +48,7 @@ class BaseModel:
 
     def to_dict(self):
         """returns a dictionary containing all keys/values of __dict__"""
+        """plus a key __class__ with the class name of the object."""
 
         my_dict = self.__dict__.copy()
         my_dict["__class__"] = type(self).__name__
