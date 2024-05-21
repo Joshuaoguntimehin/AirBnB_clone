@@ -3,13 +3,24 @@ import cmd
 
 
 class HBNBCommand(cmd.Cmd):
-    """Simple command processor example."""
+    """Class for the command interpreter."""
 
-    def do_greet(self, line):
-        print("hello")
-
+    prompt = "(hbnb) "
+    
     def do_EOF(self, line):
+        """Handles End Of File character."""
+        print()
         return True
+
+    def do_quit(self, line):
+        """Exits the program.
+        """
+        return True
+
+    def emptyline(self):
+        """Doesn't do anything on ENTER.
+        """
+        pass
 
 
 if __name__ == '__main__':
