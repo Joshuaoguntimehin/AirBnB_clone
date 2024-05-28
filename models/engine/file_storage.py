@@ -11,25 +11,21 @@ class FileStorage:
 
     def new(self, obj):
         """Sets in __objects the obj with key <obj class name>.id."""
-        key = f"{obj.__class__.__name__}"
+        key = f"{obj.__class__.__name__}" 
 
     def save(self):
-        """ Serialize an object to a file"""
-        with open(self.__file_path, 'w') as file:
-            json.dump(self.__object, file, default=self._serialize_helper)
+        """Save storage dictionary to file."""
+        with open(self.__file_path, 'w') as f:
+            json.dump({obj_id: obj.to_dict() for obj_id, obj in self.__objects.items()}, f)
 
-    def _deserialize_helper(d):
-        """Custom deserialization logic."""
-        # Implement your custom deserialization logic here.
-        # For example, you may need to convert dictionaries back to object instances.
-        return d
     def reload(self):
-        """Deserializes the JSON file to __objects, if the file exists."""
-        if os.path.exists(self.__file_path):
-            try:
-                with open(self.__file_path, 'r', encoding="utf-8") as file:
-                    loaded_objects = json.load(file, object_hook=FileStorage._deserialize_helper)
-                    self.__objects = loaded_objects
-            except (json.JSONDecodeError, IOError) as e:
-                print(f"Error loading from {self.__file_path}: {e}")
-
+        """Load storage dictionary from file."""
+        try:
+            with open(self.__file_path, 'r') as f:
+                obj_dict = json.load(f)
+                for obj_id, obj_data in obj_dict.items():
+                    self.__objects[obj_id] = BaseModel(**obj_data)
+        except FileNotFoundError:
+            pass
+        except json.JSONDecodeError:
+            pass  # If the file is empty or corrupted, ignore the error and start with an empty dictionary
